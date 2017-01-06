@@ -108,16 +108,21 @@ to have longer lines than shorter lines.
 
 You'll want to pass the tests defined in minimax_specs.js.
 */
+
+
+
 var heuristic = function(state, maximizingPlayer){
 
 	//This is how you can retrieve the minimizing player.
     var minimizingPlayer = (maximizingPlayer == 'x') ? 'o' : 'x';
 
 	//An example.
-    var linesOfLengthTwoForX = state.numLines(2, 'x')
+    var linesOfLengthTwoForX = state.numLines(2, 'x') 
 
-    //Your code here.  Don't return random, obviously.
-	return Math.random()
+
+	let maxPlayerValue = (state.numLines(3, maximizingPlayer) * 10) + (state.numLines(2, maximizingPlayer) * 5) - ((state.numLines(3, minimizingPlayer) * 10) + (state.numLines(2, minimizingPlayer) * 5))
+
+ 	return maxPlayerValue
 }
 
 
@@ -142,11 +147,24 @@ which returns whether the next moving player is 'x' or 'o',
 to see if you are maximizing or minimizing.
 */
 var minimax = function(state, depth, maximizingPlayer){
-	var minimizingPlayer = (state.maximizingPlayer == 'x') ? 'o' : 'x';
+	var minimizingPlayer = (maximizingPlayer == 'x') ? 'o' : 'x';
 	var possibleStates = state.nextStates();
 	var currentPlayer = state.nextMovePlayer;
 	//Your code here.
-	return Math.random();
+	console.log(possibleStates)
+
+	if (depth == 0 || possibleStates.length == 0){
+		return heuristic(state,maximizingPlayer)
+	}
+
+	else {
+
+		let scoreArray = possibleStates.map((pState) => heuristic(pState, maximizingPlayer)).sort((a, b) => a - b)
+
+		let highScore = scoreArray[scoreArray.length-1]
+
+
+	}
 }
 
 
